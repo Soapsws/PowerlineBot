@@ -23,44 +23,36 @@ class Agent:
         self.x += 1
 
     def heuristic_move(self, map_state):
-        up_cost = 1000000 if self.dir == "DOWN" else 0
-        down_cost = 1000000 if self.dir == "UP" else 0
-        left_cost = 1000000 if self.dir == "RIGHT" else 0
-        right_cost = 1000000 if self.dir == "LEFT" else 0
+        up_dist = - \
+            1 if self.dir == "DOWN" else self.scan_direction(0, -1, map_state)
+        down_dist = - \
+            1 if self.dir == "UP" else self.scan_direction(0, 1, map_state)
+        left_dist = - \
+            1 if self.dir == "RIGHT" else self.scan_direction(-1, 0, map_state)
+        right_dist = - \
+            1 if self.dir == "LEFT" else self.scan_direction(1, 0, map_state)
 
-        dist = 0
-        for i in range(self.y, -1, -1):
-            if map_state[self.x, i] != 0:
-                up_cost += 1000 / (dist + 1)
-            dist += 1
-        dist = 0
-        for i in range(self.y, map_state.shape[0]):
-            if map_state[self.x, i] != 0:
-                down_cost += 1000 / (dist + 1)
-            dist += 1
-        dist = 0
-        for i in range(self.x, -1, -1):
-            dist = 0
-            if map_state[i, self.y] != 0:
-                left_cost += 1000 / (dist + 1)
-            dist += 1
-        dist = 0
-        for i in range(self.x, map_state.shape[0]):
-            dist = 0
-            if map_state[i, self.y] != 0:
-                right_cost += 1000 / (dist + 1)
-            dist += 1
+        max_dist = max(up_dist, down_dist, left_dist, right_dist)
+        print("Space: | UP {} | DOWN {} | LEFT {} | RIGHT {}",
+              up_dist, down_dist, left_dist, right_dist)
 
-        min_cost = min(up_cost, down_cost, left_cost, right_cost)
-        if (min_cost) == up_cost:
+        if (max_dist == up_dist):
             self.move_up()
-            self.dir = "UP"
-        elif (min_cost) == down_cost:
+        elif (max_dist == down_dist):
             self.move_down()
-            self.dir = "DOWN"
-        elif (min_cost) == left_cost:
+        elif (max_dist == left_dist):
             self.move_left()
-            self.dir = "LEFT"
-        else:
+        elif (max_dist == right_dist):
             self.move_right()
-            self.dir = "RIGHT"
+
+        return (self.x, self.y)
+
+    def scan_direction(self, dx, dy, map_state):
+        dist = 0
+        (x, y) = self.x, self.y
+        while (map_state[x+dx, y+dy] == 0):
+            x += dx
+            y += dy
+            dist += 1
+
+        return dist
