@@ -1,4 +1,5 @@
 import numpy
+import utils
 
 
 class Agent:
@@ -61,3 +62,15 @@ class Agent:
             dist += 1
 
         return dist
+
+    def floodfill_heuristic_move(self, map_state):
+        if map_state[self.y + 1, self.x + 1] != 0 \
+                or map_state[self.y + 1, self.x - 1] != 0 \
+            or map_state[self.y - 1, self.x + 1] != 0 \
+                or map_state[self.y - 1, self.x - 1] != 0:
+            space_up = utils.floodfill(map_state, self.x, self.y - 1)
+            space_down = utils.floodfill(map_state, self.x, self.y + 1)
+            space_left = utils.floodfill(map_state, self.x - 1, self.y)
+            space_right = utils.floodfill(map_state, self.x + 1, self.y)
+
+            return (space_up, space_down, space_left, space_right)
