@@ -11,10 +11,10 @@ class Agent:
         self.alive = True
 
     def move_up(self):
-        self.y += 1
+        self.y -= 1
 
     def move_down(self):
-        self.y -= 1
+        self.y += 1
 
     def move_left(self):
         self.x -= 1
@@ -33,24 +33,29 @@ class Agent:
             1 if self.dir == "LEFT" else self.scan_direction(1, 0, map_state)
 
         max_dist = max(up_dist, down_dist, left_dist, right_dist)
-        print("Space: | UP {} | DOWN {} | LEFT {} | RIGHT {}",
-              up_dist, down_dist, left_dist, right_dist)
+        print(
+            f"Space: | UP {up_dist} | DOWN {down_dist} | LEFT {left_dist} | RIGHT {right_dist}")
 
         if (max_dist == up_dist):
             self.move_up()
+            self.dir = "UP"
         elif (max_dist == down_dist):
             self.move_down()
+            self.dir = "DOWN"
         elif (max_dist == left_dist):
             self.move_left()
+            self.dir = "LEFT"
         elif (max_dist == right_dist):
             self.move_right()
+            self.dir = "RIGHT"
 
         return (self.x, self.y)
 
     def scan_direction(self, dx, dy, map_state):
         dist = 0
         (x, y) = self.x, self.y
-        while (map_state[x+dx, y+dy] == 0):
+        # NumPy arrays go by row, column -> y, x
+        while (map_state[y+dy, x+dx] == 0):
             x += dx
             y += dy
             dist += 1

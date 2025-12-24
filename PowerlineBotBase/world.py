@@ -13,9 +13,9 @@ def print_map():
 
 
 def edit_tile(x, y, new_val):
-    if check_collision(mapx[x, y]):
+    if check_collision(mapx[y, x]):
         return False
-    mapx[x, y] = new_val
+    mapx[y, x] = new_val
     return True
 
 
