@@ -23,3 +23,13 @@ def check_collision(existing_val):
     if existing_val == 1 or existing_val == 2:
         return True
     return False
+
+
+def reset():
+    # need to access reference - this modification trick works
+    mapx[:] = np.zeros((16, 16))
+    for i in range(mapx.shape[0]):
+        mapx[0, i] = 1
+        mapx[mapx.shape[0] - 1, i] = 1
+        mapx[i, 0] = 1
+        mapx[i, mapx.shape[0] - 1] = 1

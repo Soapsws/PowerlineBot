@@ -40,6 +40,7 @@ class Agent:
             map_state)
 
         # ctrl slash mass comment
+        # un/comment below code to toggle floodfill feature
 
         up_dist += up_dist / 2 * up_space
         down_dist += down_dist / 2 * down_space
