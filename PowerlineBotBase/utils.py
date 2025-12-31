@@ -54,7 +54,8 @@ def upd_ff(x, y, s, q, map_state):
     return False
 
 
-def dijkstra(nodes, edges, start, end):
+def pathfind(nodes, edges, start, end, heuristic):
+    # h = 0 -> simple dijkstra
     pq = []
     cost = [math.inf] * len(nodes)
     prev = [None] * len(nodes)
@@ -68,9 +69,13 @@ def dijkstra(nodes, edges, start, end):
         if cost_curr > cost[curr]:  # outdated value skip
             continue
         for cost_n, n in edges[curr]:
-            if cost_curr + cost_n < cost[n]:
+            # cost_path <=> g(n) | heuristic[n] <=> h[n]
+            cost_path = cost_curr + cost_n
+            if cost_path < cost[n]:
                 prev[n] = curr
-                cost[n] = cost_curr + cost_n
-                heapq.heappush(pq, (cost[n], n))
+                # not storing h, this is simply g
+                cost[n] = cost_path
+                # heuristic is ONLY used for priority
+                heapq.heappush(pq, (cost_path + heuristic[n], n))
 
     return cost, prev
