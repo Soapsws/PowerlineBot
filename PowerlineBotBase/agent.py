@@ -33,9 +33,20 @@ class Agent:
         right_dist = - \
             1 if self.dir == "LEFT" else self.scan_direction(1, 0, map_state)
 
+        # print(
+        # f"Space: | UP {up_dist} | DOWN {down_dist} | LEFT {left_dist} | RIGHT {right_dist}")
+
+        up_space, down_space, left_space, right_space = self.floodfill_heuristic_move(
+            map_state)
+
+        # ctrl slash mass comment
+
+        up_dist += up_dist / 2 * up_space
+        down_dist += down_dist / 2 * down_space
+        left_dist += left_dist / 2 * left_space
+        right_dist += right_dist / 2 * right_space
+
         max_dist = max(up_dist, down_dist, left_dist, right_dist)
-        print(
-            f"Space: | UP {up_dist} | DOWN {down_dist} | LEFT {left_dist} | RIGHT {right_dist}")
 
         if (max_dist == up_dist):
             self.move_up()
@@ -74,3 +85,4 @@ class Agent:
             space_right = utils.floodfill(map_state, self.x + 1, self.y)
 
             return (space_up, space_down, space_left, space_right)
+        return 0, 0, 0, 0

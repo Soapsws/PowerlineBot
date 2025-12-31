@@ -20,11 +20,11 @@ while running:
 
     world.print_map()
     ag.time_alive += 1
-    time.sleep(0.3)
 
+    time.sleep(0.1)
 
 print("Program End <> | Agent time alive:", ag.time_alive)
 
 # To-Do:
-# (1) Finish floodfill heuristic move logic
+# (1) Finish floodfill heuristic move logic (done with iteration 1)
 # (2) Play around some more

@@ -1,6 +1,8 @@
 import random
 import os
 from collections import deque
+import heapq
+import math
 
 
 def clear_terminal():
@@ -50,3 +52,25 @@ def upd_ff(x, y, s, q, map_state):
         s.add((x, y))
         return True
     return False
+
+
+def dijkstra(nodes, edges, start, end):
+    pq = []
+    cost = [math.inf] * len(nodes)
+    prev = [None] * len(nodes)
+    cost[start] = 0
+    heapq.heappush(pq, (cost[start], start))
+
+    while (pq):
+        cost_curr, curr = heapq.heappop(pq)
+        if curr == end:  # only works cus priority queue
+            break
+        if cost_curr > cost[curr]:  # outdated value skip
+            continue
+        for cost_n, n in edges[curr]:
+            if cost_curr + cost_n < cost[n]:
+                prev[n] = curr
+                cost[n] = cost_curr + cost_n
+                heapq.heappush(pq, (cost[n], n))
+
+    return cost, prev
