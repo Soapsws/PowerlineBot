@@ -24,6 +24,11 @@ def floodfill(map_state, x, y):
     q = deque()
     s = set()
 
+    min_x = math.inf
+    max_x = 0
+    min_y = math.inf
+    max_y = 0
+
     q.append((x, y))
     s.add((x, y))
 
@@ -31,6 +36,11 @@ def floodfill(map_state, x, y):
     while q:
         # right pop - default pop() - makes it DFS, not BFS
         (temp_x, temp_y) = q.popleft()
+
+        min_x = min(min_x, temp_x)
+        max_x = max(max_x, temp_x)
+        min_y = min(min_y, temp_y)
+        max_y = max(max_y, temp_y)
 
         if upd_ff(temp_x + 1, temp_y, s, q, map_state):
             space += 1
@@ -41,7 +51,15 @@ def floodfill(map_state, x, y):
         if upd_ff(temp_x, temp_y - 1, s, q, map_state):
             space += 1
 
-    return space
+    length = max_x - min_x
+    height = max_y - min_y
+
+    if length == 0 or height == 0:
+        bonus_top = 0
+    else:
+        bonus_top = (min(length, height) / max(length, height)) * space / 2
+
+    return space + bonus_top
 
 
 def upd_ff(x, y, s, q, map_state):

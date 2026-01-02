@@ -9,7 +9,7 @@ midp = world.mapx.shape[0] // 2
 def standard_test(iterations, obstacles, floodfill):
     avg = 0.0
     for i in range(iterations):
-        print("iteration ", i)
+        # print("iteration ", i)
         running = True
         ag = agent.Agent(midp, midp, floodfill)
         utils.generate_obstacles(obstacles, world.mapx, ag)

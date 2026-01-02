@@ -37,17 +37,15 @@ class Agent:
         # print(
         # f"Space: | UP {up_dist} | DOWN {down_dist} | LEFT {left_dist} | RIGHT {right_dist}")
 
-        up_space, down_space, left_space, right_space = self.floodfill_heuristic_move(
-            map_state)
-
-        # ctrl slash mass comment
-        # un/comment below code to toggle floodfill feature
-
         if (self.floodfill):
-            up_dist += up_dist / 2 * up_space
-            down_dist += down_dist / 2 * down_space
-            left_dist += left_dist / 2 * left_space
-            right_dist += right_dist / 2 * right_space
+            ff_weight = 1
+            up_space, down_space, left_space, right_space = self.floodfill_heuristic_move(
+                map_state)
+
+            up_dist += up_dist / ff_weight * up_space
+            down_dist += down_dist / ff_weight * down_space
+            left_dist += left_dist / ff_weight * left_space
+            right_dist += right_dist / ff_weight * right_space
 
         max_dist = max(up_dist, down_dist, left_dist, right_dist)
 
