@@ -4,9 +4,10 @@ import utils
 
 class Agent:
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, floodfill):
         self.x = x
         self.y = y
+        self.floodfill = floodfill
         self.time_alive = 0
         self.dir = "UP"
         self.alive = True
@@ -42,10 +43,11 @@ class Agent:
         # ctrl slash mass comment
         # un/comment below code to toggle floodfill feature
 
-        up_dist += up_dist / 2 * up_space
-        down_dist += down_dist / 2 * down_space
-        left_dist += left_dist / 2 * left_space
-        right_dist += right_dist / 2 * right_space
+        if (self.floodfill):
+            up_dist += up_dist / 2 * up_space
+            down_dist += down_dist / 2 * down_space
+            left_dist += left_dist / 2 * left_space
+            right_dist += right_dist / 2 * right_space
 
         max_dist = max(up_dist, down_dist, left_dist, right_dist)
 
